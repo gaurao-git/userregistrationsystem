@@ -2,9 +2,11 @@ package com.user.registration.system.userregistrationsystem.controllers;
 
 import com.user.registration.system.userregistrationsystem.dtos.UserDTO;
 import com.user.registration.system.userregistrationsystem.services.UserRegistrationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +17,7 @@ public class UserRegistrationController {
     private UserRegistrationService userRegistrationService;
 
     @PostMapping("/createUser")
-    public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserDTO userDTO){
         this.userRegistrationService.createUser(userDTO);
         return new ResponseEntity<String>("User registered successfully.", HttpStatus.CREATED);
     }
