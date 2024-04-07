@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  useregistrationsystem:            #service
+    image: registration             #giving name to image
+    container_name: registration    #giving name to container
+    build: .                        #build and create image we saw in Dockerfile and . is beacuse file is availabe in root folder
+    depends_on:                     #it's mean useregistrationsystem is depends on mysqldb and it will start after mysqldb container created
+      mysqldb:
+        condition: service_healthy  #need to explore. there are certain healthcheck conditions
+    ports:
+      - '8080:8080'                 #export port and docker port
+    environment:                    #environment key and values use in application.yml file
+      MYSQL_HOST: mysqldb
+      MYSQL_USERNAME: dockermysqluser
+      MYSQL_PASSWORD: root12
+  mysqldb:                          #service
+    image: mysql                    #giving name to image
+    container_name: mysql           #giving name to container
+    healthcheck:                    #need to explore. there are certain healthcheck conditions
+      test: ["CMD", "mysqladmin","ping","-h", "mysqldb"]   #command to check container condition
+      interval: 5s                                         #time interval for healthchecking of the service
+      timeout: 3s                                          #timeout for healthchecking of the service
+      retries: 5                                           #retries for healthchecking of the service
+      start_period: 10s                                    #healthchecking start periods
+    ports:
+      - '3307:3306'                                        #export port and docker port
+    environment:                    #environment key and values use while pulling mysql image and creating container also use while connecting to mysql GUI like mysql workbench, DBever etc.
+      MYSQL_ROOT_PASSWORD: root12
+      MYSQL_USER: dockermysqluser
+      MYSQL_PASSWORD: root12
+      MYSQL_DATABASE: registrations
+
+
+#  >>Docker Compose file is for defining and running multi-container Docker applications. It allows you to define the services, networks, and volumes needed for your application in a YAML file, which is typically named docker-compose.yml.
+#  >>As we know that each and every conatainer run on its isolated environment but when we define the services in same docker-compose.yml. file then it create common network for every service define in docker-compose.yml. file
+#  >>Hence both useregistrationsystem and mysqldb can communicate with each other becuse both services is define in same docker-compose.yml. file
+
+#below are the command use for docker compose file
+      # docker compose up (it will create/pull image and create container)
+
