@@ -3,7 +3,7 @@ spring:
     name: useregistrationsystem
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/registrations?createDatabaseIfNotExist=true
-#    url: jdbc:mysql://192.875.875.354:3306/registrations?createDatabaseIfNotExist=true   (not working need to find out the solution for this)
+#    url: jdbc:mysql://192.875.875.354:3306/registrations?createDatabaseIfNotExist=true   (not working need to find out the solution for this issue)
 #    url: jdbc:mysql://localhost:3306/registrations?createDatabaseIfNotExist=true
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root@12}
